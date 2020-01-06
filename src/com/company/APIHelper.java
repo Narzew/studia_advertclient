@@ -1,16 +1,70 @@
 package com.company;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Scanner;
 
 public class APIHelper {
+
+    /* OLD api call
+    public static String apiCall(String url, String method, String data){
+        HttpResponse<String> response;
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .method(method, HttpRequest.BodyPublishers.ofString(data))
+                .build();
+        if(request.)
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.toString();
+        } catch (IOException e){
+            System.out.println("Error: IOException: " + e.getMessage());
+        } catch (InterruptedException e){
+            System.out.println("Error: InterruptedException: " + e.getMessage());
+        } catch (Exception e){
+            System.out.println("Unknown error");
+        }
+        return "";
+    }*/
+
+    public static String apiCall(String url, String method, String data){
+        try {
+            URL urla = new URL("http://google.com");
+            HttpURLConnection connection = (HttpURLConnection) urla.openConnection();
+            connection.setRequestMethod(method);
+            connection.
+            connection.connect();
+            int code = connection.getResponseCode();
+            System.out.println("Response code of the object is " + code);
+            if (code == 200) {
+                return connection.getContent().toString();
+            } else throw new InvalidResponseCodeException();
+        } catch (Exception e){
+            System.out.println("Error occured");
+        }
+    }
 
     /*
     TODO: Parse login request
      */
 
-    public static String login_user(String login, String password){
+    public static String login_user(String email, String password){
         // Parse apiGet for login
-        // TODO: Method body
+        // Create JSON Object
+        String json = Json.createObjectBuilder()
+                .add("email", email)
+                .add("password", password)
+                .build()
+                .toString();
+
+        // Parse apiPost for register
+        String response = apiCall("localhost/users/", "POST", json);
         String result = "";
         return result;
     }
@@ -19,9 +73,17 @@ public class APIHelper {
     TODO: Parse register request
      */
 
-    public static String register_user(String login, String password, String username, String email){
+    public static String register_user(String email, String password, String username){
+        // Create JSON Object
+        String json = Json.createObjectBuilder()
+                .add("email", email)
+                .add("password", password)
+                .add("username", username)
+                .build()
+                .toString();
+
         // Parse apiPost for register
-        // TODO: Method body
+        apiCall("localhost/users/", "POST", json);
         String result = "";
         return result;
     }
@@ -36,7 +98,7 @@ public class APIHelper {
         String password;
         int choice = 0;
         do {
-            System.out.println("Enter login");
+            System.out.println("Enter login:");
             login = scanner.nextLine();
         } while (!login.isBlank());
         do {
