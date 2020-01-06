@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aff0e30c-5d10-4c5b-99c9-9abc021b06ff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/company/InvalidResponseCodeException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/org_json_json_20190722.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdvertClient.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AdvertClient.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/APIHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/APIHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,9 +36,16 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="true" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
@@ -75,7 +82,8 @@
       <option name="presentableId" value="Default" />
       <updated>1577460449298</updated>
       <workItem from="1577460453053" duration="3928000" />
-      <workItem from="1578316974880" duration="2223000" />
+      <workItem from="1578316974880" duration="2831000" />
+      <workItem from="1578334585829" duration="1685000" />
     </task>
     <servers />
   </component>
@@ -83,9 +91,21 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="0" y="0" key="com.intellij.ide.util.TipDialog" timestamp="1578316974367">
+    <state x="740" y="214" key="FileChooserDialogImpl" timestamp="1578335645048">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="0" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578316974367" />
+    <state x="740" y="214" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1578335645048" />
+    <state x="440" y="95" key="SettingsEditor" timestamp="1578335741918">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="95" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1578335741918" />
+    <state x="0" y="0" key="com.intellij.ide.util.TipDialog" timestamp="1578334600916">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="0" y="0" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578334600916" />
+    <state x="638" y="282" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1578335736728">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="638" y="282" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1920.1040@0.0.1920.1040" timestamp="1578335736728" />
   </component>
 </project>

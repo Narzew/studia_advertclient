@@ -1,13 +1,18 @@
 package com.company;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+
+import org.json.JSONObject;
 
 public class APIHelper {
 
@@ -33,12 +38,21 @@ public class APIHelper {
         return "";
     }*/
 
-    public static String apiCall(String url, String method, String data){
+    public static String apiCall(String addr, String method, String data){
         try {
-            URL urla = new URL("http://google.com");
-            HttpURLConnection connection = (HttpURLConnection) urla.openConnection();
+            URL url = new URL(addr);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
-            connection.
+            connection.setRequestProperty("Content-Type", "application/json; utf-8");
+            connection.setRequestProperty("Accept", "application/json");
+            if(method.equals("POST") || method.equals("PUT")) {
+                connection.setDoOutput(true);
+                // Pass JSON over POST
+                try (OutputStream os = connection.getOutputStream()) {
+                    byte[] input = data.getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+            }
             connection.connect();
             int code = connection.getResponseCode();
             System.out.println("Response code of the object is " + code);
@@ -48,6 +62,7 @@ public class APIHelper {
         } catch (Exception e){
             System.out.println("Error occured");
         }
+        return "";
     }
 
     /*
@@ -57,15 +72,13 @@ public class APIHelper {
     public static String login_user(String email, String password){
         // Parse apiGet for login
         // Create JSON Object
-        String json = Json.createObjectBuilder()
-                .add("email", email)
-                .add("password", password)
-                .build()
-                .toString();
-
+        Map<String, String> map = new HashMap<>();
+        map.put("email", email);
+        map.put("password", password);
+        JSONObject json = new JSONObject(map);
         // Parse apiPost for register
-        String response = apiCall("localhost/users/", "POST", json);
-        String result = "";
+        String response = apiCall("localhost/users/login/", "POST", json.toString());
+        String result="CALL OK: "+response;
         return result;
     }
 
@@ -74,17 +87,17 @@ public class APIHelper {
      */
 
     public static String register_user(String email, String password, String username){
-        // Create JSON Object
-        String json = Json.createObjectBuilder()
-                .add("email", email)
-                .add("password", password)
-                .add("username", username)
-                .build()
-                .toString();
-
         // Parse apiPost for register
-        apiCall("localhost/users/", "POST", json);
-        String result = "";
+        // Create JSON Object
+        // Create JSON Object
+        Map<String, String> map = new HashMap<>();
+        map.put("email", email);
+        map.put("password", password);
+        map.put("username", username);
+        JSONObject json = new JSONObject(map);
+
+        String response = apiCall("localhost/users/", "POST", json.toString());
+        String result = "CALL OK: "+response;
         return result;
     }
 
@@ -154,46 +167,10 @@ public class APIHelper {
             System.out.println("Something went wrong.\n" + e.getMessage());
         }
 
-        String result = register_user(login, password, username, email);
+        String result = register_user(email, password, username);
     }
 
     public static void parse_debug(){
-
-    }
-
-    /*
-    Get value from external api using get method
-    TODO: Method body
-     */
-
-    public static void apiGet(){
-
-    }
-
-    /*
-    Post value to external API
-    TODO: Method body
-     */
-
-    public static void apiPost(){
-
-    }
-
-    /*
-    CRUD: Update
-    TODO: Method body
-     */
-
-    public static void apiUpdate(){
-
-    }
-
-    /*
-    CRUD: Delete
-    TODO: Method body
-     */
-
-    public static void apiDelete(){
 
     }
 
