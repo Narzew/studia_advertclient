@@ -1,5 +1,7 @@
 package com.company.tools;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -21,6 +23,7 @@ public class APIHelper {
      */
 
     public static String apiCall(String addr, String method, String data, String mode){
+        String receivedData = new String();
         try {
             URL url = new URL(addr);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -47,12 +50,20 @@ public class APIHelper {
                     }
                 case "login":
                     if (code == 200) {
+                        //receivedData =
+                        InputStreamReader inputStream = new InputStreamReader((InputStream) connection.getContent());
+                        JsonParser jp = new JsonParser(); //from gson
+                        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
+                        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
+                        String id = rootobj.get("id").getAsString();
+                        String authkey = rootobj.get("authkey").getAsString();
+                        System.out.println("DEBUG: ID: "+id);
+                        System.out.println("DEBUG: Authkey: "+authkey);
                         return "Login OK";
                     } else {
                         return "Login failed";
                     }
             }
-
             /*
             if (code == 200 || code == 201 || code == 202) {
                 return connection.getContent().toString();
