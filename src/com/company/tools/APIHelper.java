@@ -20,7 +20,7 @@ public class APIHelper {
     Make call to API
      */
 
-    public static String apiCall(String addr, String method, String data){
+    public static String apiCall(String addr, String method, String data, String mode){
         try {
             URL url = new URL(addr);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -38,12 +38,28 @@ public class APIHelper {
             connection.connect();
             int code = connection.getResponseCode();
             System.out.println("Response code of the object is " + code);
+            switch(mode) {
+                case "register":
+                    if (code == 201) {
+                        return "Registration successfull!";
+                    } else {
+                        return "Registration failed.";
+                    }
+                case "login":
+                    if (code == 200) {
+                        return "Login OK";
+                    } else {
+                        return "Login failed";
+                    }
+            }
+
             /*
             if (code == 200 || code == 201 || code == 202) {
                 return connection.getContent().toString();
             } else throw new InvalidResponseCodeException();
             */
-             return connection.getContent().toString();
+            return connection.getContent().toString();
+             //return connection.getInputStream().readAllBytes().toString();
         } catch (Exception e){
             System.out.println("Error occured: "+e.getMessage());
         }
@@ -62,7 +78,7 @@ public class APIHelper {
         map.put("password", password);
         JSONObject json = new JSONObject(map);
         // Parse apiPost for register
-        String response = apiCall(Config.SERVER_URL+"/login/", "POST", json.toString());
+        String response = apiCall(Config.SERVER_URL+"/login/", "POST", json.toString(), "login");
         String result = "Response: "+response;
         return result;
     }
@@ -84,7 +100,7 @@ public class APIHelper {
         map.put("phoneNumber", phoneNumber);
         JSONObject json = new JSONObject(map);
 
-        String response = apiCall(Config.SERVER_URL+"/users/", "POST", json.toString());
+        String response = apiCall(Config.SERVER_URL+"/users/", "POST", json.toString(), "register");
         String result = "Response: "+response;
         return result;
     }
