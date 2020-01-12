@@ -26,6 +26,8 @@ import org.json.JSONObject;
 
 public class APIHelper {
 
+    public static boolean simplified = true;
+
     /*
     Make call to API
      */
@@ -65,13 +67,13 @@ public class APIHelper {
                         String authkey = rootobj.get("authkey").getAsString();
                         UserData.setId(Integer.parseInt(id));
                         UserData.setAuthkey(authkey);
-                        System.out.println("DEBUG: ID: "+id);
-                        System.out.println("DEBUG: Authkey: "+authkey);
+                        //System.out.println("DEBUG: ID: "+id);
+                        //System.out.println("DEBUG: Authkey: "+authkey);
                         return "Login OK";
                     } else {
                         return "Login failed";
                     }
-                case "publicAdverts":
+                case "adverts":
                     if(code==200){
                         JsonParser jp = new JsonParser(); //from gson
                         JsonElement root = jp.parse(new InputStreamReader((InputStream) connection.getContent())); //Convert the input stream to a json element
@@ -83,14 +85,19 @@ public class APIHelper {
                         Advert[] advertArray = gson.fromJson(rootary.toString(), Advert[].class);
 
                         for(Advert advert : advertArray) {
-                            System.out.println(advert);
+                            // Simplified output for adverts
+                            if(simplified){
+                                System.out.println(advert.getSimplified());
+                            } else {
+                                System.out.println(advert);
+                            }
                         }
                     }
                 case "addAdvert":
                     if (code == 200 || code == 201) {
                         return "Advertisement added!";
                     } else {
-                        return "Failed to add advertisement. Response code: "+code+"\n";
+                        return "Failed to add advertisement.";
                     }
             }
             return connection.getContent().toString();
@@ -153,13 +160,13 @@ public class APIHelper {
         return response;
     }
 
-    public static String get_public_adverts(){
-        String response = apiCall(Config.SERVER_URL+"/advertisement/", "GET", "", "publicAdverts");
+    public static String get_all_adverts(){
+        String response = apiCall(Config.SERVER_URL+"/advertisement/", "GET", "", "adverts");
         return response;
     }
 
     public static String get_user_adverts(Integer userId){
-        String response = apiCall(Config.SERVER_URL+"/users/"+UserData.getId()+"/advertisement/", "GET", "", "publicAdverts");
+        String response = apiCall(Config.SERVER_URL+"/users/"+UserData.getId()+"/advertisement/", "GET", "", "adverts");
         return response;
     }
 

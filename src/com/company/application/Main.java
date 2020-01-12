@@ -1,9 +1,8 @@
 package com.company.application;
 
-import com.company.config.UserData;
 import com.company.tools.APIHelper;
 import com.company.tools.Hasher;
-import com.company.tools.InputHelper;
+import com.company.tools.Menu;
 
 import java.util.Scanner;
 
@@ -18,6 +17,6 @@ public class Main {
             System.out.println("Exception occured: "+e.getMessage());
         }
         //System.exit(-1);
-        InputHelper.mainMenu();
+        Menu.mainMenu();
     }
 }

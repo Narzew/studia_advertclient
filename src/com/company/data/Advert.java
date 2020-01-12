@@ -28,4 +28,8 @@ public class Advert {
         return String.format("Advert #%d: %s\nContent: %s\nRegion: %s\nPrice: %s\n", id, title, content, region, price);
     }
 
+    public String getSimplified(){
+        return String.format("#%d: %s",id,title);
+    }
+
 }
