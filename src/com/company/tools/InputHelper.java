@@ -79,8 +79,4 @@ public class InputHelper {
         System.out.println(result);
     }
 
-    public static void parse_adverts(){
-
-    }
-
 }

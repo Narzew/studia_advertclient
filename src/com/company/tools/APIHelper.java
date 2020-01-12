@@ -15,9 +15,11 @@ import com.company.config.Config;
 import com.company.config.UserData;
 import com.company.exceptions.InvalidResponseCodeException;
 import com.company.tools.Hasher;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class APIHelper {
@@ -44,7 +46,7 @@ public class APIHelper {
             }
             connection.connect();
             int code = connection.getResponseCode();
-            System.out.println("Response code of the object is " + code);
+            //System.out.println("DEBUG: Response code of the object is " + code);
             switch(mode) {
                 case "register":
                     if (code == 201) {
@@ -54,8 +56,6 @@ public class APIHelper {
                     }
                 case "login":
                     if (code == 200) {
-                        //receivedData =
-                        //InputStreamReader inputStream = new InputStreamReader((InputStream) connection.getContent());
                         JsonParser jp = new JsonParser(); //from gson
                         JsonElement root = jp.parse(new InputStreamReader((InputStream) connection.getContent())); //Convert the input stream to a json element
                         JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
@@ -69,14 +69,17 @@ public class APIHelper {
                     } else {
                         return "Login failed";
                     }
+                case "publicAdverts":
+                    if(code==200){
+                        JsonParser jp = new JsonParser(); //from gson
+                        JsonElement root = jp.parse(new InputStreamReader((InputStream) connection.getContent())); //Convert the input stream to a json element
+                        JsonArray rootarray = root.getAsJsonArray();
+                        System.out.println(rootarray.getAsString());
+                        //JsonArray rootarray = root.getAsJsonArray(); //May be an array, may be an object.
+                    }
+                case "addAdvert":
             }
-            /*
-            if (code == 200 || code == 201 || code == 202) {
-                return connection.getContent().toString();
-            } else throw new InvalidResponseCodeException();
-            */
             return connection.getContent().toString();
-             //return connection.getInputStream().readAllBytes().toString();
         } catch (Exception e){
             System.out.println("Error occured: "+e.getMessage());
         }
@@ -96,8 +99,7 @@ public class APIHelper {
         JSONObject json = new JSONObject(map);
         // Parse apiPost for register
         String response = apiCall(Config.SERVER_URL+"/login/", "POST", json.toString(), "login");
-        String result = "Response: "+response;
-        return result;
+        return response;
     }
 
     /*
@@ -118,8 +120,12 @@ public class APIHelper {
         JSONObject json = new JSONObject(map);
 
         String response = apiCall(Config.SERVER_URL+"/users/", "POST", json.toString(), "register");
-        String result = "Response: "+response;
-        return result;
+        return response;
+    }
+
+    public static String get_public_adverts(){
+        String response = apiCall(Config.SERVER_URL+"/advertisement/", "GET", "", "publicAdverts");
+        return response;
     }
 
 }

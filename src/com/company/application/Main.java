@@ -34,7 +34,7 @@ public class Main {
                     InputHelper.parse_register();
                     break;
                 case 3:
-                    InputHelper.parse_adverts();
+                    APIHelper.get_public_adverts();
                     break;
             }
         } while (choice==0);
