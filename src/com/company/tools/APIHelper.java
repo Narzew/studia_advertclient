@@ -12,8 +12,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.company.config.Config;
+import com.company.config.UserData;
 import com.company.exceptions.InvalidResponseCodeException;
 import com.company.tools.Hasher;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.json.JSONObject;
 
 public class APIHelper {
@@ -51,12 +55,14 @@ public class APIHelper {
                 case "login":
                     if (code == 200) {
                         //receivedData =
-                        InputStreamReader inputStream = new InputStreamReader((InputStream) connection.getContent());
+                        //InputStreamReader inputStream = new InputStreamReader((InputStream) connection.getContent());
                         JsonParser jp = new JsonParser(); //from gson
-                        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
+                        JsonElement root = jp.parse(new InputStreamReader((InputStream) connection.getContent())); //Convert the input stream to a json element
                         JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
                         String id = rootobj.get("id").getAsString();
                         String authkey = rootobj.get("authkey").getAsString();
+                        UserData.setId(Integer.parseInt(id));
+                        UserData.setAuthkey(authkey);
                         System.out.println("DEBUG: ID: "+id);
                         System.out.println("DEBUG: Authkey: "+authkey);
                         return "Login OK";
