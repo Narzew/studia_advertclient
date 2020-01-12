@@ -1,5 +1,6 @@
 package com.company.application;
 
+import com.company.config.UserData;
 import com.company.tools.APIHelper;
 import com.company.tools.Hasher;
 import com.company.tools.InputHelper;
@@ -17,26 +18,6 @@ public class Main {
             System.out.println("Exception occured: "+e.getMessage());
         }
         //System.exit(-1);
-        System.out.println("AdvertClient v 0.1\n1 - login\n2 - register\n3 - public adverts\n0 - exit");
-        Scanner scanner = new Scanner(System.in);
-        int choice=0;
-        int completed_action=0;
-        do {
-            choice = scanner.nextInt();
-            switch(choice){
-                case 0:
-                    System.exit(-1);
-                    break;
-                case 1:
-                    InputHelper.parse_login();
-                    break;
-                case 2:
-                    InputHelper.parse_register();
-                    break;
-                case 3:
-                    APIHelper.get_public_adverts();
-                    break;
-            }
-        } while (choice==0);
+        InputHelper.mainMenu();
     }
 }

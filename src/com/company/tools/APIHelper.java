@@ -86,7 +86,6 @@ public class APIHelper {
                             System.out.println(advert);
                         }
                     }
-                case "addAdvert":
             }
             return connection.getContent().toString();
         } catch (IOException e){
@@ -134,6 +133,11 @@ public class APIHelper {
 
     public static String get_public_adverts(){
         String response = apiCall(Config.SERVER_URL+"/advertisement/", "GET", "", "publicAdverts");
+        return response;
+    }
+
+    public static String get_user_adverts(Integer userId){
+        String response = apiCall(Config.SERVER_URL+"/users/"+userId+"/advertisement/", "GET", "", "publicAdverts");
         return response;
     }
 

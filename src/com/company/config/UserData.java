@@ -9,6 +9,14 @@ public class UserData {
     public static Integer id = 0;
     public static String authkey = "";
 
+    public static Boolean logged(){
+        if(id.equals(0)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static Integer getId() {
         return id;
     }
