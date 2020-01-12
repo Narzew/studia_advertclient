@@ -1,4 +1,4 @@
-package com.company.config;
+package com.company.data;
 
 import java.util.ArrayList;
 

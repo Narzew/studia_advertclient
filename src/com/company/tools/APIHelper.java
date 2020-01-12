@@ -1,11 +1,14 @@
 package com.company.tools;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -13,12 +16,11 @@ import java.util.regex.Pattern;
 
 import com.company.config.Config;
 import com.company.config.UserData;
+import com.company.data.Advert;
 import com.company.exceptions.InvalidResponseCodeException;
 import com.company.tools.Hasher;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -73,14 +75,21 @@ public class APIHelper {
                     if(code==200){
                         JsonParser jp = new JsonParser(); //from gson
                         JsonElement root = jp.parse(new InputStreamReader((InputStream) connection.getContent())); //Convert the input stream to a json element
-                        JsonArray rootarray = root.getAsJsonArray();
-                        System.out.println(rootarray.getAsString());
-                        //JsonArray rootarray = root.getAsJsonArray(); //May be an array, may be an object.
+                        JsonObject rootobj = root.getAsJsonObject();
+                        JsonArray rootary = rootobj.getAsJsonArray("content");
+
+                        // Convert rootary to Advert array
+                        Gson gson = new Gson();
+                        Advert[] advertArray = gson.fromJson(rootary.toString(), Advert[].class);
+
+                        for(Advert advert : advertArray) {
+                            System.out.println(advert);
+                        }
                     }
                 case "addAdvert":
             }
             return connection.getContent().toString();
-        } catch (Exception e){
+        } catch (IOException e){
             System.out.println("Error occured: "+e.getMessage());
         }
         return "";
