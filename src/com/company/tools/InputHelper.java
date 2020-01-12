@@ -170,8 +170,45 @@ public class InputHelper {
         mainMenu();
     }
 
-    public static void addAdvert(){
+     /*
+    Get register data from user
+     */
 
+    public static void addAdvert(){
+        Scanner scanner = new Scanner(System.in);
+        String title;
+        String content;
+        String region;
+        String category;
+        String price;
+        int choice = 0;
+        do {
+            System.out.println("Enter title:");
+            title = scanner.nextLine();
+        } while (title.isBlank());
+
+        do {
+            System.out.println("Enter description:");
+            content = scanner.nextLine();
+        } while (content.isBlank());
+
+        do {
+            System.out.println("Enter region (for example Poland, Germany, USA, Iran, Russia):");
+            region = scanner.nextLine();
+        } while (region.isBlank());
+
+        do {
+            System.out.println("Enter category. Available categories:\n"+Categories.getCategoryStr());
+            category = scanner.nextLine();
+        } while (category.isBlank() && !(Categories.isCategoryValid(category)));
+
+        do {
+            System.out.println("Enter price in format price currency for example 600PLN:");
+            price = scanner.nextLine();
+        } while (price.isBlank() && Money.validatePrice(price));
+
+        String result = APIHelper.add_advert(title, content, region, category, price);
+        System.out.println(result);
     }
 
     public static void modifyAdvert(){

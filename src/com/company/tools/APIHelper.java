@@ -86,6 +86,12 @@ public class APIHelper {
                             System.out.println(advert);
                         }
                     }
+                case "addAdvert":
+                    if (code == 200 || code == 201) {
+                        return "Advertisement added!";
+                    } else {
+                        return "Failed to add advertisement. Response code: "+code+"\n";
+                    }
             }
             return connection.getContent().toString();
         } catch (IOException e){
@@ -131,13 +137,29 @@ public class APIHelper {
         return response;
     }
 
+    public static String add_advert(String title, String content, String region, String category, String price){
+        // Parse apiPost for adding advert
+        // Create JSON Object
+        // Create JSON Object
+        Map<String, String> map = new HashMap<>();
+        map.put("title", title);
+        map.put("content", content);
+        map.put("region", region);
+        map.put("category", category);
+        map.put("price", price);
+        JSONObject json = new JSONObject(map);
+
+        String response = apiCall(Config.SERVER_URL+"/users/"+UserData.getId()+"/advertisement", "POST", json.toString(), "addAdvert");
+        return response;
+    }
+
     public static String get_public_adverts(){
         String response = apiCall(Config.SERVER_URL+"/advertisement/", "GET", "", "publicAdverts");
         return response;
     }
 
     public static String get_user_adverts(Integer userId){
-        String response = apiCall(Config.SERVER_URL+"/users/"+userId+"/advertisement/", "GET", "", "publicAdverts");
+        String response = apiCall(Config.SERVER_URL+"/users/"+UserData.getId()+"/advertisement/", "GET", "", "publicAdverts");
         return response;
     }
 
