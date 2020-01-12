@@ -10,16 +10,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        /*
-        // Test register
+        // Test register - register a user
         try {
             APIHelper.register_user("narzew@gmail.com", Hasher.hash_password("nikodem"), "Nikodem Solarz", "+48 530 996 646");
         } catch(Exception e){
             System.out.println("Exception occured: "+e.getMessage());
         }
-        System.exit(-1);
-         */
-
+        //System.exit(-1);
         System.out.println("AdvertClient v 0.1\n1 - login\n2 - register\n3 - public adverts\n0 - exit");
         Scanner scanner = new Scanner(System.in);
         int choice=0;
