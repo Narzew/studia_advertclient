@@ -102,6 +102,17 @@ public class APIHelper {
                     } else {
                         return "Failed to delete content. Response code: "+code;
                     }
+                case "exchangeRate":
+                    if(code == 200 || code == 201){
+                        JsonParser jp = new JsonParser(); //from gson
+                        JsonElement root = jp.parse(new InputStreamReader((InputStream) connection.getContent())); //Convert the input stream to a json element
+                        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
+                        String price = rootobj.get("price").getAsString();
+                        String result = String.format("Price: %s",price);
+                        return result;
+                    } else {
+                        return "Failed to get exchange rate";
+                    }
             }
             return connection.getContent().toString();
         } catch (IOException e){
@@ -191,6 +202,11 @@ public class APIHelper {
 
     public static String get_user_adverts(Integer userId){
         String response = apiCall(Config.SERVER_URL+"/users/"+UserData.getId()+"/advertisement/", "GET", "", "adverts");
+        return response;
+    }
+
+    public static String getExchangeRate(Integer advert_id, String target_currency){
+        String response = apiCall(Config.SERVER_URL+"/advertisement/"+advert_id+"/exchange/?targetCurrency="+target_currency, "GET", "", "exchangeRate");
         return response;
     }
 

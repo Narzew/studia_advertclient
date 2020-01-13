@@ -63,7 +63,7 @@ public class Menu {
         } else {
             simplified = "disable";
         }
-        System.out.println(String.format("\n1 - add advert\n2 - %s simplified mode\n3 - get user adverts\n4 - get all adverts\n5 - modify advert\n6 - remove adverts\n7 - logout\n0 - exit",simplified));
+        System.out.println(String.format("\n1 - add advert\n2 - %s simplified mode\n3 - get user adverts\n4 - get all adverts\n5 - modify advert\n6 - remove adverts\n7 - get exchange rate\n8 - logout\n0 - exit",simplified));
         int choice;
         Scanner scanner = new Scanner(System.in);
         do {
@@ -91,6 +91,9 @@ public class Menu {
                     InputHelper.removeAdvert();
                     break;
                 case 7:
+                    InputHelper.getExchangeRate();
+                    break;
+                case 8:
                     InputHelper.logout();
             }
             mainMenu();

@@ -2,6 +2,7 @@ package com.company.tools;
 
 import com.company.application.Menu;
 import com.company.config.Categories;
+import com.company.config.Config;
 import com.company.data.TempData;
 import com.company.data.UserData;
 
@@ -179,6 +180,25 @@ public class InputHelper {
         } while (advertId <= 0);
         TempData.lastAdvertId = advertId;
         InputHelper.parseAdvert("delete");
+    }
+
+    public static void getExchangeRate(){
+        Scanner scanner = new Scanner(System.in);
+        Integer advertId = 0;
+        String currencyCode = "";
+        System.out.println("List of adverts:");
+        APIHelper.get_all_adverts();
+        do {
+            System.out.println("Enter ID of advert to get exchange rate:");
+            advertId = scanner.nextInt();
+        } while (advertId <= 0);
+        do {
+            System.out.print("Enter currency: \n");
+            currencyCode = scanner.nextLine();
+        } while (!(Config.currencies.contains(currencyCode)));
+        String response = APIHelper.getExchangeRate(advertId, currencyCode);
+        response = String.format("%s %s", response, currencyCode);
+        System.out.println(response);
     }
 
     public static void swapSimplifiedMode(){
