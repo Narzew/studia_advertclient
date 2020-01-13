@@ -1,4 +1,4 @@
-package com.company.config;
+package com.company.data;
 
 public class UserData {
 

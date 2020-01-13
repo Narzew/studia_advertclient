@@ -2,9 +2,6 @@ package com.company.application;
 
 import com.company.tools.APIHelper;
 import com.company.tools.Hasher;
-import com.company.tools.Menu;
-
-import java.util.Scanner;
 
 public class Main {
 

@@ -1,6 +1,9 @@
 package com.company.tools;
 
-import com.company.config.UserData;
+import com.company.application.Menu;
+import com.company.config.Categories;
+import com.company.data.TempData;
+import com.company.data.UserData;
 
 import java.util.Scanner;
 
@@ -91,13 +94,27 @@ public class InputHelper {
     Get register data from user
      */
 
-    public static void addAdvert(){
+    public static void parseAdvert(String mode){
+        if(mode=="modify" && TempData.lastAdvertId == 0){
+            System.out.println("Cannot perform modify. Missing advert ID.");
+            return;
+        }
+        if(mode=="delete"){
+            if(TempData.lastAdvertId == 0) {
+                System.out.println("Cannot perform delete. Missing advert ID.");
+                return;
+            } else {
+                APIHelper.delete_advert(TempData.lastAdvertId);
+                return;
+            }
+        }
         Scanner scanner = new Scanner(System.in);
         String title;
         String content;
         String region;
         String category;
         String price;
+        String result = "";
         int choice = 0;
         do {
             System.out.println("Enter title:");
@@ -115,7 +132,7 @@ public class InputHelper {
         } while (region.isBlank());
 
         do {
-            System.out.println("Enter category. Available categories:\n"+Categories.getCategoryStr());
+            System.out.println("Enter category. Available categories:\n"+ Categories.getCategoryStr());
             category = scanner.nextLine();
         } while (category.isBlank() || !(Categories.isCategoryValid(category)));
 
@@ -124,20 +141,48 @@ public class InputHelper {
             price = scanner.nextLine();
         } while (price.isBlank() || !(Money.validatePrice(price)));
 
-        String result = APIHelper.add_advert(title, content, region, category, price);
+        switch(mode) {
+            case "add":
+                result = APIHelper.add_advert(title, content, region, category, price);
+                break;
+            case "modify":
+                result = APIHelper.modify_advert(TempData.lastAdvertId, title, content, region, category, price);
+                break;
+        }
         System.out.println(result);
     }
 
     public static void modifyAdvert(){
-
+        Scanner scanner = new Scanner(System.in);
+        Integer advertId;
+        System.out.println("Your adverts:");
+        APIHelper.get_user_adverts(UserData.getId());
+        do {
+            System.out.println("Enter ID of advert to modify:");
+            System.out.println("Warning: putting bad ID will lead in refused request");
+            advertId = scanner.nextInt();
+        } while (advertId <= 0);
+        TempData.lastAdvertId = advertId;
+        InputHelper.parseAdvert("modify");
     }
 
     public static void removeAdvert(){
-
+        Scanner scanner = new Scanner(System.in);
+        Integer advertId;
+        System.out.println("Your adverts:");
+        APIHelper.get_user_adverts(UserData.getId());
+        do {
+            System.out.println("Enter ID of advert to delete:");
+            System.out.println("Warning: This operation cannot be undone.");
+            System.out.println("Warning: putting bad ID will lead in refused request");
+            advertId = scanner.nextInt();
+        } while (advertId <= 0);
+        TempData.lastAdvertId = advertId;
+        InputHelper.parseAdvert("delete");
     }
 
-    public static void searchForAdvert(){
-
+    public static void swapSimplifiedMode(){
+        APIHelper.simplified = !APIHelper.simplified;
     }
 
 }

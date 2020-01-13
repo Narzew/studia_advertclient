@@ -4,24 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.company.config.Config;
-import com.company.config.UserData;
+import com.company.data.UserData;
 import com.company.data.Advert;
-import com.company.exceptions.InvalidResponseCodeException;
-import com.company.tools.Hasher;
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class APIHelper {
@@ -99,6 +90,18 @@ public class APIHelper {
                     } else {
                         return "Failed to add advertisement.";
                     }
+                case "modifyAdvert":
+                    if(code == 200 || code == 202){
+                        return "Content modified successfully!";
+                    } else {
+                        return "Failed to modify content. Response code: "+code;
+                    }
+                case "deleteAdvert":
+                    if(code == 200 || code == 204){
+                        return "Delete successfull!";
+                    } else {
+                        return "Failed to delete content. Response code: "+code;
+                    }
             }
             return connection.getContent().toString();
         } catch (IOException e){
@@ -157,6 +160,27 @@ public class APIHelper {
         JSONObject json = new JSONObject(map);
 
         String response = apiCall(Config.SERVER_URL+"/users/"+UserData.getId()+"/advertisement", "POST", json.toString(), "addAdvert");
+        return response;
+    }
+
+    public static String modify_advert(Integer advertisementId, String title, String content, String region, String category, String price){
+        // Parse apiPost for adding advert
+        // Create JSON Object
+        // Create JSON Object
+        Map<String, String> map = new HashMap<>();
+        map.put("title", title);
+        map.put("content", content);
+        map.put("region", region);
+        map.put("category", category);
+        map.put("price", price);
+        JSONObject json = new JSONObject(map);
+
+        String response = apiCall(Config.SERVER_URL+"/users/"+UserData.getId()+"/advertisement/"+advertisementId+"/", "PUT", json.toString(), "modifyAdvert");
+        return response;
+    }
+
+    public static String delete_advert(Integer advertisementId){
+        String response = apiCall(Config.SERVER_URL+"/users/"+UserData.getId()+"/advertisement/"+advertisementId+"/", "DELETE", "", "deleteAdvert");
         return response;
     }
 

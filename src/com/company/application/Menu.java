@@ -1,6 +1,8 @@
-package com.company.tools;
+package com.company.application;
 
-import com.company.config.UserData;
+import com.company.data.UserData;
+import com.company.tools.APIHelper;
+import com.company.tools.InputHelper;
 
 import java.util.Scanner;
 
@@ -55,7 +57,13 @@ public class Menu {
      */
 
     public static void userMenu(){
-        System.out.println("\n1 - add advert\n2 - search for advert\n3 - get user adverts\n4 - get all adverts\n5 - modify advert\n6 - remove adverts\n7 - logout\n0 - exit");
+        String simplified;
+        if(APIHelper.simplified == false) {
+            simplified = "enable";
+        } else {
+            simplified = "disable";
+        }
+        System.out.println(String.format("\n1 - add advert\n2 - %s simplified mode\n3 - get user adverts\n4 - get all adverts\n5 - modify advert\n6 - remove adverts\n7 - logout\n0 - exit",simplified));
         int choice;
         Scanner scanner = new Scanner(System.in);
         do {
@@ -65,10 +73,10 @@ public class Menu {
                     System.exit(-1);
                     break;
                 case 1:
-                    InputHelper.addAdvert();
+                    InputHelper.parseAdvert("add");
                     break;
                 case 2:
-                    InputHelper.searchForAdvert();
+                    InputHelper.swapSimplifiedMode();
                     break;
                 case 3:
                     APIHelper.get_user_adverts(UserData.getId());
